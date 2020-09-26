@@ -19,7 +19,9 @@ export function showInputError(el) {
   const msg = el.dataset.invalidMessage || 'Invalid input';
   const template = inputErrorTemplate(msg);
   el.classList.add('is-invalid');
-  parent.insertAdjacentHTML('beforeend', template);
+  if (!parent.querySelector('.invalid-feedback')) {
+    parent.insertAdjacentHTML('beforeend', template);
+  }
 }
 
 /**

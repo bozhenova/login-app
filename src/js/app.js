@@ -3,6 +3,7 @@ import '../css/style.css';
 import UI from './config/ui.config';
 import { validate } from './helpers/validate';
 import { showInputError, removeInputError } from './views/form';
+import { login } from './services/auth.service';
 
 const { form, inputEmail, inputPassword } = UI;
 const inputs = [inputEmail, inputPassword];
@@ -18,7 +19,7 @@ inputs.forEach(el =>
   })
 );
 
-function onSubmit() {
+async function onSubmit() {
   const isValidForm = inputs.every(el => {
     const isValidInput = validate(el);
     if (!isValidInput) {
@@ -26,4 +27,9 @@ function onSubmit() {
     }
     return isValidInput;
   });
+  if (!isValidForm) return;
+  try {
+    await login(inputEmail.nodeValue, inputPassword.value);
+    form.reset();
+  } catch (err) {}
 }
